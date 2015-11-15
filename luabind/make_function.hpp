@@ -11,6 +11,8 @@
 #include <luabind/detail/deduce_signature.hpp>
 #include <luabind/detail/format_signature.hpp>
 
+#include <___unused.h>
+
 namespace luabind {
 
 	namespace detail
@@ -49,6 +51,7 @@ namespace luabind {
 
 			static bool invoke_defer(lua_State* L, function_object_impl* impl, invoke_context& ctx, F& f, int& results)
 			{
+                _unused(f);
 				bool exception_caught = false;
 
 				try {

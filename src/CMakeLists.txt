@@ -68,6 +68,7 @@ source_group(API FILES ${LUABIND_API})
 set(LUABIND_DETAIL_API
 	../luabind/detail/meta.hpp
 	../luabind/detail/call_traits.hpp
+	../luabind/detail/call_shared.hpp
 	../luabind/detail/crtp_iterator.hpp
 	../luabind/detail/call_function.hpp
 	../luabind/detail/call.hpp
@@ -173,8 +174,14 @@ if(INSTALL_LUABIND)
 	install(FILES ${LUABIND_API}
 		DESTINATION ${INCLUDE_DIR}/luabind
 		COMPONENT sdk)
+	install(FILES ${LUABIND_USER_POLICIES}
+		DESTINATION ${INCLUDE_DIR}/luabind
+		COMPONENT sdk)	
 	install(FILES ${LUABIND_DETAIL_API}
 		DESTINATION ${INCLUDE_DIR}/luabind/detail
+		COMPONENT sdk)
+	install(FILES ${LUABIND_DEFAULT_POLICIES}
+		DESTINATION ${INCLUDE_DIR}/luabind/detail/conversion_policies
 		COMPONENT sdk)
 	install(TARGETS luabind
 		EXPORT luabind

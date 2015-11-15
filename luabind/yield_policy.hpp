@@ -26,6 +26,7 @@
 
 #include <luabind/config.hpp>
 #include <luabind/detail/policy.hpp>
+#include <___unused.h>
 
 namespace luabind {
 	
@@ -33,7 +34,7 @@ namespace luabind {
 
 		struct yield_policy
 		{
-			static void postcall(lua_State*, int results, meta::index_list_tag) {}
+            static void postcall(lua_State*, int results, meta::index_list_tag) { _unused(results); }
 		};
 
 	}

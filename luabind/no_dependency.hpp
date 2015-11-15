@@ -15,7 +15,7 @@ namespace detail
   struct no_dependency_policy
   {
       static void postcall(lua_State*, int results, meta::index_list_tag)
-      {}
+      {_unused(results);}
   };
 
 } // namespace detail

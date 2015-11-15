@@ -13,6 +13,8 @@
 #include <luabind/detail/decorate_type.hpp>
 #include <luabind/detail/object.hpp>
 
+#include <___unused.h>
+
 #ifdef LUABIND_NO_INTERNAL_TAG_ARGUMENTS
 #include <tuple>
 #endif
@@ -108,7 +110,7 @@ namespace luabind {
 
 			template< typename ConverterPolicy, typename StackIndexList >
 			struct converter_policy_postcall< ConverterPolicy, StackIndexList, false > {
-				static void postcall(lua_State* L, int results) {
+                static void postcall(lua_State* L, int results) {_unused(L);_unused(results);
 				}
 			};
 
@@ -122,7 +124,7 @@ namespace luabind {
 
 			template< typename StackIndexList >
 			struct policy_list_postcall< meta::type_list< >, StackIndexList > {
-				static void postcall(lua_State* L, int results) {}
+                static void postcall(lua_State* L, int results) {_unused(L);_unused(results);}
 			};
 
 #ifndef LUABIND_NO_INTERNAL_TAG_ARGUMENTS		
@@ -366,6 +368,7 @@ namespace luabind {
 		{
 			template< typename TupleType >
 			static int match(lua_State* L, TupleType&) {
+                _unused(L);
 				return 0;
 			}
 		};
