@@ -24,10 +24,10 @@
 #include <luabind/luabind.hpp>
 #include <memory>
 
-struct A : counted_type<A> 
+struct A : counted_type<A>
 { virtual ~A() {} };
 
-struct B : A, counted_type<B>  
+struct B : A, counted_type<B>
 {};
 
 
@@ -80,10 +80,10 @@ void test_main(lua_State* L)
     [
         class_<A>("A")
             .def(constructor<>()),
-    
+
         class_<B, A>("B")
             .def(constructor<>()),
-    
+
         class_<test_implicit>("test")
             .def(constructor<>())
             .def("f", (f1)&test_implicit::f)
@@ -113,7 +113,7 @@ void test_main(lua_State* L)
     DOSTRING(L, "assert(t:f(a) == 'f(A*)')");
     DOSTRING(L, "assert(t:f(b) == 'f(B*)')");
 
-    DOSTRING(L, 
+    DOSTRING(L,
         "a = char_ptr()\n"
         "func(a)");
 
