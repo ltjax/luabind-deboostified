@@ -20,12 +20,13 @@ endif()
 
 if(CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
 	# We are the top-level project
-	option(LUABIND_INSTALL "Install the LuaBind library and headers" ON)
-	option(LUABIND_BUILD_SHARED "Build luabind as a shared library?" OFF)
 	include(CTest)
+	option(LUABIND_INSTALL "Install the LuaBind library and headers" ON)
+	option(LUABIND_BUILD_DOCS "Build documentation files" OFF)
+	option(LUABIND_BUILD_SHARED "Build luabind as a shared library?" OFF)
 endif()
 
-if(CMAKE_COMPILER_IS_GNUCXX)
+if(CMAKE_COMPILER_IS_GNUCXX OR ${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 endif()
 
@@ -37,13 +38,16 @@ endif()
 
 include_directories(
 	"${CMAKE_CURRENT_SOURCE_DIR}"
-	${LUA_INCLUDE_DIRS})
+	${LUA_INCLUDE_DIRS}
+)
 
 add_subdirectory(src)
 
-if(CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
-	if(LUABIND_BUILD_TESTING)
-		add_subdirectory(test)
-	endif()
+if(BUILD_TESTING)
+	add_subdirectory(test)
+endif()
+
+if(LUABIND_BUILD_DOCS)
 	add_subdirectory(doc)
 endif()
+

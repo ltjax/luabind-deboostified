@@ -1,7 +1,7 @@
 luabind
 =======
 Currently, at least the following compilers are supported:
-- MSVC 2013 Update 3
+- MSVC 2015 (up from 2013 update 3 since we've introduced light constexpr usage)
 - Clang/LLVM 3.6.0
 - G++ 4.9
 

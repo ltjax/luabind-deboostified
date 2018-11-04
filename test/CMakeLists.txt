@@ -4,7 +4,7 @@
 # Iowa State University HCI Graduate Program/VRAC
 
 # ls test_*.cpp | sort | sed s/test_// | sed s/.cpp//
-# remove typetraits value_wrapper and has_get_pointer because they are
+# remove typetraits lua_proxy and has_get_pointer because they are
 # compile-only tests
 set(TESTS
 	abstract_base

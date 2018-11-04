@@ -182,16 +182,16 @@ void test_upvalues(lua_State* L)
 	object f(from_stack(L, -1));
 	lua_pop(L, 1);
 
-	assert(getupvalue(f, 1) == 3);
-	assert(getupvalue(f, 2) == 4);
+	assert(std::get<1>(getupvalue(f, 1)) == 3);
+	assert(std::get<1>(getupvalue(f, 2)) == 4);
 
 	setupvalue(f, 1, object(L, 4));
-	assert(getupvalue(f, 1) == 4);
-	assert(getupvalue(f, 2) == 4);
+	assert(std::get<1>(getupvalue(f, 1)) == 4);
+	assert(std::get<1>(getupvalue(f, 2)) == 4);
 
 	setupvalue(f, 2, object(L, 5));
-	assert(getupvalue(f, 1) == 4);
-	assert(getupvalue(f, 2) == 5);
+	assert(std::get<1>(getupvalue(f, 1)) == 4);
+	assert(std::get<1>(getupvalue(f, 2)) == 5);
 }
 
 void test_explicit_conversions(lua_State* L)

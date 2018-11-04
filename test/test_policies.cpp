@@ -58,17 +58,33 @@ struct policies_test_class
 	{
 		delete p;
 	}
-	const policies_test_class* internal_ref() { return this; }
+	
+	const policies_test_class* internal_ref() {
+		return this;
+	}
+	
 	policies_test_class* self_ref()
-	{ return this; }
+	{ 
+		return this;
+	}
 
 	static int count;
 
 	//	private:
-	policies_test_class(policies_test_class const& c): name_(c.name_)
-	{ ++count; }
+	policies_test_class(policies_test_class const& c)
+		: name_(c.name_)
+	{ 
+		++count;
+	}
 
-	void member_out_val(int a, int* v) { *v = a * 2; }
+	void member_pure_out_val(int a, int* v) {
+		*v = a * 2;
+	}
+	
+	void member_out_val(int a, int* v) { 
+		*v *= a;
+	}
+
 	secret_type* member_secret() { return &sec_; }
 };
 
@@ -135,7 +151,8 @@ void test_main(lua_State* L)
 	[
 		class_<policies_test_class>("test")
 			.def(constructor<>())
-			.def("member_out_val", &policies_test_class::member_out_val, pure_out_value<3>())
+			.def("member_pure_out_val", &policies_test_class::member_pure_out_val, pure_out_value<3>())
+			.def("member_out_val", &policies_test_class::member_out_val, out_value<3>())
 			.def("member_secret", &policies_test_class::member_secret, discard_result())
 			.def("f", &policies_test_class::f, adopt_policy<2>())
 			.def("make", &policies_test_class::make, adopt_policy<0>())
@@ -226,7 +243,8 @@ void test_main(lua_State* L)
 	TEST_CHECK(policies_test_class::count == 2);
 
 	DOSTRING(L, "b = a:make('tjosan')");
-	DOSTRING(L, "assert(a:member_out_val(3) == 6)");
+	DOSTRING(L, "assert(a:member_pure_out_val(3) == 6)");
+	DOSTRING(L, "assert(a:member_out_val(3,2) == 6)");
 	DOSTRING(L, "a:member_secret()");
 
 	// make instantiated a new policies_test_class

@@ -24,6 +24,8 @@
 #include "test.hpp"
 #include <luabind/luabind.hpp>
 #include <luabind/adopt_policy.hpp>
+#include <luabind/function_introspection.hpp>
+#include <luabind/set_package_preload.hpp>
 
 struct base : counted_type<base>
 {
@@ -49,7 +51,7 @@ int f(int x, int y)
 void test_main(lua_State* L)
 {
     using namespace luabind;
-    
+    set_package_preload(L, "luabind.function_introspection", &bind_function_introspection);
     
     DOSTRING(L,
         "require('luabind.function_introspection')");

@@ -34,6 +34,7 @@
 #include <luabind/detail/conversion_policies/lua_proxy_converter.hpp>
 #include <luabind/detail/conversion_policies/native_converter.hpp>
 #include <luabind/detail/conversion_policies/function_converter.hpp>
+#include <luabind/shared_ptr_converter.hpp>
 
 namespace luabind {
 
@@ -43,13 +44,13 @@ namespace luabind {
 		enum { consumed_args = 0 };
 
 		template <class U>
-        lua_State* to_cpp(lua_State* L, U, int /*index*/)
+		lua_State* to_cpp(lua_State* L, U, int /*index*/)
 		{
 			return L;
 		}
 
 		template <class U>
-        static int match(lua_State*, U, int /*index*/)
+		static int match(lua_State*, U, int /*index*/)
 		{
 			return 0;
 		}
@@ -64,17 +65,17 @@ namespace luabind {
 		template< class T >
 		struct default_converter_generator
 			: public meta::select_ <
-				meta::case_< is_lua_proxy_arg<T>, lua_proxy_converter<T> >,
-				meta::case_< std::is_enum<typename std::remove_reference<T>::type>, enum_converter >,
-				meta::case_< is_nonconst_pointer<T>, pointer_converter >,
-				meta::case_< is_const_pointer<T>, const_pointer_converter >,
-				meta::case_< is_nonconst_reference<T>, ref_converter >,
-				meta::case_< is_const_reference<T>, const_ref_converter >,
-				meta::default_< value_converter >
+			meta::case_< is_lua_proxy_arg<T>, lua_proxy_converter<T> >,
+			meta::case_< std::is_enum<typename std::remove_reference<T>::type>, enum_converter >,
+			meta::case_< is_nonconst_pointer<T>, pointer_converter >,
+			meta::case_< is_const_pointer<T>, const_pointer_converter >,
+			meta::case_< is_nonconst_reference<T>, ref_converter >,
+			meta::case_< is_const_reference<T>, const_ref_converter >,
+			meta::default_< value_converter >
 			> ::type
 		{
 		};
-	
+
 	}
 
 	template <class T, class Enable>

@@ -56,9 +56,9 @@ void test_main(lua_State* L)
 {
 	using namespace luabind;
 
-	typedef void(simple_class::*f_overload1)();
-	typedef void(simple_class::*f_overload2)(int, int);
-	typedef void(simple_class::*f_overload3)(std::string);
+	using f_overload1 = void(simple_class::*)();
+	using f_overload2 = void(simple_class::*)(int, int);
+	using f_overload3 = void(simple_class::*)(std::string);
 
     module(L)
     [

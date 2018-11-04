@@ -22,7 +22,6 @@
 
 #include <luabind/detail/typetraits.hpp>
 #include <luabind/detail/pointee_sizeof.hpp>
-#include <boost/static_assert.hpp>
 
 using namespace luabind;
 using namespace luabind::detail;
@@ -30,29 +29,31 @@ using namespace luabind::detail;
 struct tester {};
 struct lua_State;
 
+#define LUABIND_STATIC_ASSERT(expr) static_assert(expr, #expr)
+
 int test_main(lua_State*)
 {
-	BOOST_STATIC_ASSERT(is_nonconst_reference<int&>::value);
-	BOOST_STATIC_ASSERT(!is_nonconst_reference<const int&>::value);
-	BOOST_STATIC_ASSERT(is_nonconst_reference<tester&>::value);
-	BOOST_STATIC_ASSERT(!is_nonconst_reference<const tester&>::value);
+	LUABIND_STATIC_ASSERT(is_nonconst_reference<int&>::value);
+	LUABIND_STATIC_ASSERT(!is_nonconst_reference<const int&>::value);
+	LUABIND_STATIC_ASSERT(is_nonconst_reference<tester&>::value);
+	LUABIND_STATIC_ASSERT(!is_nonconst_reference<const tester&>::value);
 
-	BOOST_STATIC_ASSERT(!is_const_reference<int&>::value);
-	BOOST_STATIC_ASSERT(is_const_reference<const int&>::value);
-	BOOST_STATIC_ASSERT(!is_const_reference<tester&>::value);
-	BOOST_STATIC_ASSERT(is_const_reference<const tester&>::value);
+	LUABIND_STATIC_ASSERT(!is_const_reference<int&>::value);
+	LUABIND_STATIC_ASSERT(is_const_reference<const int&>::value);
+	LUABIND_STATIC_ASSERT(!is_const_reference<tester&>::value);
+	LUABIND_STATIC_ASSERT(is_const_reference<const tester&>::value);
 
-	BOOST_STATIC_ASSERT(!is_const_pointer<int*>::value);
-	BOOST_STATIC_ASSERT(is_const_pointer<const int*>::value);
-	BOOST_STATIC_ASSERT(!is_const_pointer<tester*>::value);
-	BOOST_STATIC_ASSERT(is_const_pointer<const tester*>::value);
+	LUABIND_STATIC_ASSERT(!is_const_pointer<int*>::value);
+	LUABIND_STATIC_ASSERT(is_const_pointer<const int*>::value);
+    LUABIND_STATIC_ASSERT(!is_const_pointer<tester*>::value);
+    LUABIND_STATIC_ASSERT(is_const_pointer<const tester*>::value);
 
-	BOOST_STATIC_ASSERT(is_nonconst_pointer<int*>::value);
-	BOOST_STATIC_ASSERT(!is_nonconst_pointer<const int*>::value);
-	BOOST_STATIC_ASSERT(is_nonconst_pointer<tester*>::value);
-	BOOST_STATIC_ASSERT(!is_nonconst_pointer<const tester*>::value);
+    LUABIND_STATIC_ASSERT(is_nonconst_pointer<int*>::value);
+    LUABIND_STATIC_ASSERT(!is_nonconst_pointer<const int*>::value);
+    LUABIND_STATIC_ASSERT(is_nonconst_pointer<tester*>::value);
+    LUABIND_STATIC_ASSERT(!is_nonconst_pointer<const tester*>::value);
 
-	BOOST_STATIC_ASSERT(!is_const_reference<const tester>::value);
+    LUABIND_STATIC_ASSERT(!is_const_reference<const tester>::value);
 
 	return 0;
 }

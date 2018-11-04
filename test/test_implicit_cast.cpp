@@ -24,15 +24,15 @@
 #include <luabind/luabind.hpp>
 #include <memory>
 
-struct A : counted_type<A> 
+struct A : counted_type<A>
 { virtual ~A() {} };
 
-struct B : A, counted_type<B>  
+struct B : A, counted_type<B>
 {};
 
 
 struct enum_placeholder {};
-typedef enum { VAL1 = 1, VAL2 = 2 } LBENUM_t;
+enum LBENUM_t { VAL1 = 1, VAL2 = 2 };
 LBENUM_t enum_by_val(LBENUM_t e)    { return e; }
 LBENUM_t enum_by_const_ref(const LBENUM_t &e)   { return e; }
 
@@ -73,17 +73,17 @@ void test_main(lua_State* L)
 {
     using namespace luabind;
 
-    typedef char const*(test_implicit::*f1)(A*);
-    typedef char const*(test_implicit::*f2)(B*);
+    using f1 = char const*(test_implicit::*)(A*);
+    using f2 = char const*(test_implicit::*)(B*);
 
     module(L)
     [
         class_<A>("A")
             .def(constructor<>()),
-    
+
         class_<B, A>("B")
             .def(constructor<>()),
-    
+
         class_<test_implicit>("test")
             .def(constructor<>())
             .def("f", (f1)&test_implicit::f)
@@ -113,7 +113,7 @@ void test_main(lua_State* L)
     DOSTRING(L, "assert(t:f(a) == 'f(A*)')");
     DOSTRING(L, "assert(t:f(b) == 'f(B*)')");
 
-    DOSTRING(L, 
+    DOSTRING(L,
         "a = char_ptr()\n"
         "func(a)");
 
@@ -124,6 +124,7 @@ void test_main(lua_State* L)
     DOSTRING(L, "assert(enum_by_const_ref(LBENUM.VAL1) == LBENUM.VAL1)");
     DOSTRING(L, "assert(enum_by_const_ref(LBENUM.VAL2) == LBENUM.VAL2)");
 
+	// This test fails because shared_ptr-converter is broken.
 	DOSTRING_EXPECTED(L,
 		"a = A()\n"
 		"no_convert(a)",

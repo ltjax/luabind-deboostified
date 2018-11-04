@@ -44,10 +44,12 @@ int main()
 	lua_State* L = luaL_newstate();
 	open(L);
 	
-	class_<A>(L, "A")
-		.def(constructor<>());
-
-	function(L, "test1", &f1);
+    module(L)
+    [
+        class_<A>("A")
+            .def(constructor<>()),
+        def("test1", &f1)
+    ];	
 
 	lua_pushcclosure(L, &f2, 0);
 	lua_setglobal(L, "test2");
@@ -59,7 +61,7 @@ int main()
 	{
 		// benchmark luabind
 		std::clock_t start1 = std::clock();
-		lua_dostring(L, "a = A()\n"
+		luaL_dostring(L, "a = A()\n"
 									"for i = 1, 100000 do\n"
 										"test1(5, 4.6, 'foo', a)\n"
 									"end");
@@ -69,7 +71,7 @@ int main()
 
 		// benchmark empty binding
 		std::clock_t start2 = std::clock();
-		lua_dostring(L, "a = A()\n"
+        luaL_dostring(L, "a = A()\n"
 									"for i = 1, 100000 do\n"
 										"test2(5, 4.6, 'foo', a)\n"
 									"end");
