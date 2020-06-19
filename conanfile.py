@@ -19,8 +19,6 @@ class LuabindDeboostifiedConan(ConanFile):
     def build(self):
         cmake = CMake(self)
         cmake.configure(source_folder=".",defs={
-            'LUA_INCLUDE_DIR': ";".join(self.deps_cpp_info["lua"].include_paths),
-            'LUA_LIBRARIES': ";".join(self.deps_cpp_info["lua"].libs),
             'LUABIND_BUILD_SHARED': self.options.shared,
         })
         cmake.build()

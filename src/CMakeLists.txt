@@ -143,7 +143,7 @@ elseif(CMAKE_COMPILER_IS_GNUCXX)
 endif()
 
 add_library(luabind ${LUABIND_SRCS} ${LUABIND_API} ${LUABIND_DETAIL_API} ${LUABIND_DEFAULT_POLICIES} ${LUABIND_USER_POLICIES})
-target_link_libraries(luabind ${LUA_LIBRARIES} ${LUABIND_EXTRA_LIBS})
+target_link_libraries(luabind CONAN_PKG::lua ${LUABIND_EXTRA_LIBS})
 set_property(TARGET
 	luabind PROPERTY
 	COMPILE_FLAGS
