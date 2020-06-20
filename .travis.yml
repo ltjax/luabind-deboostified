@@ -5,6 +5,7 @@ env:
      - CONAN_USERNAME: "ltjax"
      - CONAN_LOGIN_USERNAME: "ltjax"
      - CONAN_CHANNEL: "testing"
+     - CONAN_ARCHS: "x86_64"
      
 linux: &linux
    os: linux
