@@ -1,4 +1,5 @@
-from conans import ConanFile, CMake, tools
+from conan import ConanFile
+from conan.tools.cmake import CMake, CMakeDeps, CMakeToolchain, cmake_layout
 
 
 class LuabindDeboostifiedConan(ConanFile):
@@ -12,19 +13,30 @@ class LuabindDeboostifiedConan(ConanFile):
     settings = "os", "compiler", "build_type", "arch"
     options = {"shared": [True, False]}
     default_options = {"shared": False}
-    generators = "cmake"
     exports_sources = "luabind/*", "src/*", "doc/*", "CMakeLists.txt",
-    requires = "lua/5.1@ltjax/testing"
+
+    def requirements(self):
+        self.requires("lua/5.1", transitive_headers=True)
+
+    def generate(self):
+        deps = CMakeDeps(self)
+        deps.generate()
+
+        toolchain = CMakeToolchain(self)
+        toolchain.variables['LUABIND_BUILD_SHARED'] = self.options.shared
+        toolchain.generate()
 
     def build(self):
         cmake = CMake(self)
-        cmake.configure(source_folder=".",defs={
-            'LUABIND_BUILD_SHARED': self.options.shared,
-        })
+        cmake.configure()
         cmake.build()
 
+    def layout(self):
+        cmake_layout(self)
+
     def package(self):
-        CMake(self).install()
+        cmake = CMake(self)
+        cmake.install()
 
     def package_info(self):
         self.cpp_info.libs = ["luabind"]
