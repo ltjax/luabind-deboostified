@@ -7,6 +7,8 @@
 
 #include <luabind/config.hpp>
 #include <typeinfo>
+#include <limits>
+#include <string>
 #include <luabind/detail/meta.hpp>
 #include <luabind/detail/policy.hpp>
 #include <luabind/yield_policy.hpp>
